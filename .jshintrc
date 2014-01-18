@@ -1,0 +1,7 @@
+{
+  "node": true,
+  "strict": true,
+  "trailing": true,
+  "indent": 2,
+  "proto": true
+}
