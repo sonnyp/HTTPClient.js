@@ -1,5 +1,5 @@
 {
-  "name": "HTTPClient",
+  "name": "httpclient",
   "version": "0.0.1",
   "description": "HTTPClient interface for browsers and Node.js",
   "homepage": "https://github.com/sonnyp/HTTPClient.js",
