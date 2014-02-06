@@ -2,34 +2,34 @@
 
 module.exports = function(grunt) {
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+
     jsvalidate: {
-      options:{
-        globals: {},
-        esprimaOptions: {},
-        verbose: true
-      },
-      targetName:{
-        files:{
-          src:[
-            '*.js',
-            'lib/**/*.js',
-            'test/**/*.js',
-          ]
-        }
+      files:{
+        src:[
+          '*.js',
+          'example/**/*.js',
+          'lib/**/*.js',
+          'test/**/*.js',
+        ]
       }
     },
+
     jshint: {
       files:[
-        'package.json',
+        '*.json',
         '*.js',
+        'example/**/*.js',
         'lib/**/*.js',
         'test/**/*.js',
       ],
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+        jshintignore: '.jshintignore'
       }
     },
+
     mochaTest: {
       test: {
         options: {
@@ -39,6 +39,7 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-jsvalidate');

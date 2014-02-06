@@ -22,6 +22,7 @@
       res = response;
     };
     req.onend = function(body) {
+      res = res || {};
       res.body = body;
       callback(null, res);
     };

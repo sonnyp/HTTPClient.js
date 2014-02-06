@@ -1,6 +1,6 @@
 {
   "name": "httpclient",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "HTTPClient interface for browsers and Node.js",
   "homepage": "https://github.com/sonnyp/HTTPClient.js",
   "bugs": "https://github.com/sonnyp/HTTPClient.js/issues",
@@ -10,7 +10,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/grunt test --verbose"
+    "test": "grunt test --verbose"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "mocha": "~1.17.1",
-    "grunt-cli": "~0.1.13",
     "grunt": "~0.4.2",
     "grunt-jsvalidate": "~0.2.2",
     "grunt-contrib-jshint": "~0.8.0",

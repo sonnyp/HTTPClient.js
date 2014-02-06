@@ -53,6 +53,9 @@
     foo: 'bar'
   };
   var req2 = HTTPClient(options, function(err, res) {
+    if (err)
+      return console.log(err);
+
     console.log('Example 2');
     console.log('type: ', res.type);
     console.log('status: ', res.status);
