@@ -1,8 +1,9 @@
-test
 example
+test
+.gitignore
 .jshintignore
 .jshintrc
-.travis.yml
-.gitignore
 .npmignore
+.travis.yml
+bower.json
 Gruntfile.js

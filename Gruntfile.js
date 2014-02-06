@@ -9,6 +9,8 @@ module.exports = function(grunt) {
       files:{
         src:[
           '*.js',
+          '!HTTPClient.js',
+          '!HTTPClient.min.js',
           'example/**/*.js',
           'lib/**/*.js',
           'test/**/*.js',
@@ -20,6 +22,8 @@ module.exports = function(grunt) {
       files:[
         '*.json',
         '*.js',
+        '!HTTPClient.js',
+        '!HTTPClient.min.js',
         'example/**/*.js',
         'lib/**/*.js',
         'test/**/*.js',
