@@ -2,14 +2,14 @@
 
   'use strict';
 
-  var HTTPClient;
+  var httpclient;
 
   //node.js
   if (typeof module !== 'undefined' && module.exports)
-    HTTPClient = require('..');
+    httplient = require('..');
   //browsers
   else
-    HTTPClient = global.HTTPClient;
+    httpclient = global.HTTPClient;
 
   var options = {
     hostname: 'localhost',
@@ -23,7 +23,7 @@
     }
   };
 
-  HTTPClient(options, function(err, res) {
+  httpclient(options, function(err, res) {
     console.log(res.body);
   });
 

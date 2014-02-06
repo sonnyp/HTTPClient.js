@@ -11,6 +11,8 @@
   else
     HTTPClient = global.HTTPClient;
 
+  var httpclient = HTTPClient;
+
   var options = {
     hostname: 'localhost',
     method: 'post',
@@ -52,7 +54,7 @@
   options.query = {
     foo: 'bar'
   };
-  var req2 = HTTPClient(options, function(err, res) {
+  httpclient(options, function(err, res) {
     if (err)
       return console.log(err);
 
