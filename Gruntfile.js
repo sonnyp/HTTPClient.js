@@ -5,17 +5,6 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    jsvalidate: {
-      files:{
-        src:[
-          '*.js',
-          'example/**/*.js',
-          'lib/**/*.js',
-          'test/**/*.js',
-        ]
-      }
-    },
-
     jshint: {
       files:[
         '*.json',
@@ -25,52 +14,52 @@ module.exports = function(grunt) {
         'test/**/*.js',
       ],
       options: {
-        jshintrc: '.jshintrc',
-        jshintignore: '.jshintignore'
+        jshintrc: '.jshintrc'
       }
     },
 
-    // mochaTest: {
-    //   test: {
-    //     options: {
-    //       reporter: 'spec',
-    //       ui: 'tdd'
-    //     },
-    //     src: ['test/**/*.js']
-    //   }
-    // }
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          ui: 'tdd'
+        },
+        src: ['test/**/*.js']
+      }
+    },
 
     concat: {
       dist: {
         src: [
+          'lib/utils.js',
           'lib/browser.js',
-          'index.js',
-          'lib/utils.js'
+          'lib/index.js',
         ],
-        dest: 'HTTPClient.js'
+        dest: 'dist/HTTPClient.js'
       }
     },
 
     uglify: {
       my_target: {
         files: {
-          'HTTPClient.min.js': ['HTTPClient.js']
+          'dist/HTTPClient.min.js': ['dist/HTTPClient.js']
+        },
+        options: {
+          sourceMap: true
         }
       }
     }
 
   });
 
-  grunt.loadNpmTasks('grunt-jsvalidate');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  // grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  // grunt.registerTask('mocha', ['mochaTest']);
-  grunt.registerTask('syntax', ['jsvalidate', 'jshint']);
-  grunt.registerTask('test', ['jsvalidate', 'jshint']);
-  // grunt.registerTask('test', ['jsvalidate', 'mocha', 'jshint']);
+  grunt.registerTask('mocha', 'mochaTest');
+  grunt.registerTask('syntax', 'jshint');
+  grunt.registerTask('test', ['mocha', 'jshint']);
   grunt.registerTask('build', ['concat', 'uglify']);
   grunt.registerTask('default', 'test');
 };

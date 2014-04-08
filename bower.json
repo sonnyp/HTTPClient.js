@@ -1,12 +1,12 @@
 {
   "name": "httpclient",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "HTTPClient interface for browsers and Node.js",
   "homepage": "https://github.com/sonnyp/HTTPClient.js",
   "authors": [
     "Sonny Piers <sonny@fastmail.net>"
   ],
-  "main": "HTTPClient.js",
+  "main": "dist/HTTPClient.min.js",
   "keywords": [
     "http",
     "jsonp",
@@ -15,10 +15,10 @@
   ],
   "license": "MIT",
   "ignore": [
-    "example",
-    "lib",
-    "test",
-    "node_modules",
+    "example/",
+    "lib/",
+    "test/",
+    "node_modules/",
     ".gitignore",
     ".jshintignore",
     ".jshintrc",
@@ -27,5 +27,8 @@
     "Gruntfile.js",
     "index.js",
     "package.json"
-  ]
+  ],
+  "dependencies": {
+    "es6-promise": "~0.1.1"
+  }
 }

@@ -6,7 +6,7 @@
 
   //node.js
   if (typeof module !== 'undefined' && module.exports)
-    httplient = require('..');
+    httpclient = require('../index');
   //browsers
   else
     httpclient = global.HTTPClient;

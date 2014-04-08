@@ -1,5 +1,6 @@
-example
-test
+dist/
+example/
+test/
 .gitignore
 .jshintignore
 .jshintrc
@@ -7,3 +8,5 @@ test
 .travis.yml
 bower.json
 Gruntfile.js
+HTTPClient.js
+HTTPClient.min.js
