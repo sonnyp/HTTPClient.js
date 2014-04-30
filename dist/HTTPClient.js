@@ -64,7 +64,7 @@
     for (var i in defaultOptions) {
       if (typeof opts[i] === typeof defaultOptions[i])
         options[i] = opts[i];
-      else if (overrides && typeof overrides[i] === defaultOptions[i])
+      else if (overrides && typeof overrides[i] === typeof defaultOptions[i])
         options[i] = overrides[i];
       else
         options[i] = defaultOptions[i];
@@ -122,6 +122,16 @@
     return type;
   };
 
+  var getSizeFromHeaders = function(headers) {
+    var size = null;
+    if (typeof headers === 'object') {
+      var contentLength = headers['content-length'];
+      if (contentLength)
+        size = parseInt(contentLength, 10);
+    }
+    return size;
+  };
+
   var Promise;
   if (typeof module !== 'undefined' && module.exports) {
     if (!global.Promise) {
@@ -135,13 +145,22 @@
     Promise = global.Promise;
   }
 
+  var HTTPResponse = function() {
+  };
+  HTTPResponse.prototype.onend = function() {
+  };
+  HTTPResponse.prototype.onprogress = function() {
+  };
+
   var utils = {
     handleOptions: handleOptions,
     getTypeFromHeaders: getTypeFromHeaders,
+    getSizeFromHeaders: getSizeFromHeaders,
     getPrototypeOf: getPrototypeOf,
     Promise: Promise,
     methods: methods,
-    defaultOptions: defaultOptions
+    defaultOptions: defaultOptions,
+    HTTPResponse: HTTPResponse
   };
 
   if (typeof module !== 'undefined' && module.exports)
@@ -153,6 +172,8 @@
 (function(global) {
 
   'use strict';
+
+  var utils = global.HTTPClient.utils;
 
   var formatQuery = function(query, sep, eq) {
     //separator character
@@ -187,8 +208,22 @@
     ].join('');
   };
 
+  var parseStringHeaders = function(str) {
+    var headers = {};
+    if (str) {
+      var lines = str.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        if (!lines[i])
+          continue;
+
+        var keyvalue = lines[i].split(':');
+        headers[keyvalue[0].toLowerCase()] = keyvalue.slice(1).join().trim();
+      }
+    }
+    return headers;
+  };
+
   var XMLHttpRequest = global.XMLHttpRequest;
-  var dummy = function() {};
 
   var jsonp = function(opts, fn) {
     var cb = opts.query[opts.jsonp];
@@ -216,34 +251,42 @@
     head.appendChild(el);
   };
 
-  var HTTPRequest = function(options) {
-    var events = ['response', 'error', 'end'];
-    for (var i = 0; i < events.length; i++)
-      this['on' + events[i]] = dummy;
-
-    var opts = HTTPClient.utils.handleOptions(options);
-
+  var HTTPRequest = function(opts) {
+    opts = utils.handleOptions(opts);
     for (var j in opts)
       this[j] = opts[j];
 
+    var request = this;
+    this.request = this;
+    var response = new utils.HTTPResponse();
+    this.response = response;
+
+    if (opts.body && (opts.method === 'GET' || opts.method === 'HEAD')) {
+      console.warn('Request body ignored for GET and HEAD methods with XMLHttpRequest');
+    }
+
     //jsonp
     if (typeof opts.jsonp === 'string') {
-      jsonp(opts, (function(err, body) {
+      if (opts.body)
+        console.warn('Request body ignored for JSONP');
+
+      jsonp(opts, function(err, body) {
         if (err)
-          this.onerror(err);
+          request.onerror(err);
         else
-          this.onend(body);
-      }).bind(this));
+          response.onend(body);
+      });
       return;
     }
 
     var req = new XMLHttpRequest();
+    this.impl = req;
 
-    req.addEventListener('error', (function(err) {
-      this.onerror(err);
-    }).bind(this));
+    req.addEventListener('error', function(err) {
+      request.onerror(err);
+    });
 
-    req.addEventListener('readystatechange', (function() {
+    req.addEventListener('readystatechange', function() {
       //0   UNSENT  open()has not been called yet.
       //1   OPENED  send()has not been called yet.
       //2   HEADERS_RECEIVED  send() has been called, and headers and status are available.
@@ -253,40 +296,25 @@
       //   this.onopen();
       // }
       if (req.readyState === 2) {
-        var headers = {};
-        var str = req.getAllResponseHeaders();
-        if (str) {
-          var lines = str.split('\n');
-          for (var i = 0; i < lines.length; i++) {
-            if (!lines[i])
-              continue;
-
-            var keyvalue = lines[i].split(':');
-            headers[keyvalue[0].toLowerCase()] = keyvalue.slice(1).join().trim();
-          }
-        }
-
-        var status = req.status;
-        this.onresponse({
-          headers: headers,
-          status: status,
-          type: HTTPClient.utils.getTypeFromHeaders(headers)
-        });
+        response.status = req.status;
+        var headers = parseStringHeaders(req.getAllResponseHeaders());
+        response.headers = headers;
+        response.type = utils.getTypeFromHeaders(headers);
+        response.size = utils.getSizeFromHeaders(headers);
+        request.onresponse(response);
       }
       else if (req.readyState === 4) {
-        this.onend(req.response);
+        response.onend(req.response);
       }
-    }).bind(this));
+    });
 
-    // req.addEventListener('progress', (function(e) {
-    //   var complete = e.lengthComputable ? e.loaded / e.total : null;
-    //   this.ondownloadprogress(complete);
-    // }).bind(this));
+    req.addEventListener('progress', function(e) {
+      response.onprogress(e.loaded, e.lengthComputable ? e.total : null);
+    });
 
-    // req.upload.addEventListener('progress', (function(e) {
-    //   var complete = e.lengthComputable ? e.loaded / e.total : null;
-    //   this.onuploadprogress(complete);
-    // }).bind(this));
+    req.upload.addEventListener('progress', function(e) {
+      request.onprogress(e.loaded, e.lengthComputable ? e.total : null);
+    });
 
     req.open(opts.method, formatURL(opts), true);
 
@@ -298,12 +326,13 @@
     }
 
     req.send(opts.body);
-
-    this.req = req;
   };
   HTTPRequest.prototype.abort = function() {
     this.req.abort();
   };
+  HTTPRequest.prototype.onresponse = function() {};
+  HTTPRequest.prototype.onprogress = function() {};
+  HTTPRequest.prototype.onerror = function() {};
 
   global.HTTPClient.Request = HTTPRequest;
 
@@ -335,6 +364,7 @@
       opts = {path: opts};
 
     opts = utils.handleOptions(opts, this);
+
     var req = new Request(opts);
     if (!fn)
       return req;
@@ -345,12 +375,12 @@
     var res;
     req.onresponse = function(response) {
       res = response;
+
+      response.onend = function(body) {
+        fn(null, body);
+      };
     };
-    req.onend = function(body) {
-      res = res || {};
-      res.body = body;
-      fn(undefined, res);
-    };
+    return req;
   };
 
   HTTPClient.request = request;

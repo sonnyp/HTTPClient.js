@@ -24,11 +24,14 @@
     "url": "git://github.com/sonnyp/HTTPClient.js.git"
   },
   "devDependencies": {
-    "mocha": "^1.18.2",
-    "grunt": "^0.4.4",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-uglify": "^0.4.0",
-    "grunt-mocha-test": "^0.10.2"
+    "mocha": "~1.18.2",
+    "grunt": "~0.4.4",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-mocha-test": "~0.10.2"
+  },
+  "optionalDependencies": {
+    "es6-promise": "~1.0.0"
   }
 }
