@@ -45,11 +45,28 @@
 
     suite('static', function() {
 
-      test('request', function() {
-        var p = HTTPClient.request();
-        assert(typeof p === 'object');
-      });
+      suite('request', function() {
 
+        test('is defined', function() {
+          var p = HTTPClient.request({});
+          assert(typeof p === 'object');
+        });
+
+        test('default options', function() {
+          var req = HTTPClient.request();
+          assert(req.method === 'GET');
+          assert(req.host === 'localhost');
+          assert(req.port === 80);
+          assert(req.secure === false);
+          assert(req.path === '/');
+        });
+
+        test('option is a string', function() {
+          var req = HTTPClient.request('/foo');
+          assert(req.path === '/foo');
+        });
+
+      });
       suite('http utils.methods', function() {
 
         suite('upper case', function() {
@@ -60,26 +77,26 @@
             });
           });
 
-          test('overrides method', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('overrides method', function() {
             var req = HTTPClient.request;
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                plan.ok(opts.method === method);
+                assert(opts.method === method);
               };
               HTTPClient[method]({});
             });
+            HTTPClient.request = req;
           });
 
-          test('option is a string', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('option is a string', function() {
             var req = HTTPClient.request;
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                plan.ok(opts.path === '/foobar');
+                assert(opts.path === '/foobar');
               };
               HTTPClient[method]('/foobar');
             });
+            HTTPClient.request = req;
           });
 
         });
@@ -92,26 +109,26 @@
             });
           });
 
-          test('overrides method', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('overrides method', function() {
             var req = HTTPClient.request;
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                plan.ok(opts.method === method);
+                assert(opts.method === method);
               };
               HTTPClient[method.toLowerCase()]({});
             });
+            HTTPClient.request = req;
           });
 
-          test('option is a string', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('option is a string', function() {
             var req = HTTPClient.request;
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                plan.ok(opts.path === '/foobar');
+                assert(opts.path === '/foobar');
               };
               HTTPClient[method.toLowerCase()]('/foobar');
             });
+            HTTPClient.request = req;
           });
 
         });
@@ -122,10 +139,55 @@
 
     suite('instance', function() {
 
-      test('request', function() {
-        var client = new HTTPClient({});
-        var p = client.request();
-        assert(typeof p === 'object');
+      suite('request', function() {
+
+        test('is defined', function() {
+          var client = new HTTPClient({});
+          var p = client.request({});
+          assert(typeof p === 'object');
+        });
+
+        test('default options', function() {
+          var client = new HTTPClient({});
+          assert(client.method === 'GET');
+          assert(client.host === 'localhost');
+          assert(client.port === 80);
+          assert(client.secure === false);
+          assert(client.path === '/');
+        });
+
+        test('overrides options', function() {
+          var client = new HTTPClient.request({
+            host: 'example.com',
+            secure: true,
+            port: 443,
+            headers: {
+              'foo': 'bar'
+            },
+            path: '/foo/bar',
+            query: {'foo': 'bar'},
+            method: 'POST',
+            username: 'foo',
+            password: 'bar',
+          });
+          assert(client.host === 'example.com');
+          assert(client.secure === true);
+          assert(client.port === 443);
+          assert(client.headers);
+          assert(client.headers.foo === 'bar');
+          assert(client.path === '/foo/bar');
+          assert(client.query.foo === 'bar');
+          assert(client.method === 'POST');
+          assert(client.username === 'foo');
+          assert(client.password === 'bar');
+        });
+
+        test('option is a string', function() {
+          var client = new HTTPClient({});
+          var req = client.request('/foo');
+          assert(req.path === '/foo');
+        });
+
       });
 
       suite('http utils.methods', function() {
@@ -139,23 +201,21 @@
             });
           });
 
-          test('overrides method', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('overrides method', function() {
             var client = new HTTPClient({});
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                plan.ok(opts.method === method);
+                assert(opts.method === method);
               };
               client[method]({});
             });
           });
 
-          test('option is a string', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('option is a string', function() {
             var client = new HTTPClient({});
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                plan.ok(opts.path === '/foobar');
+                assert(opts.path === '/foobar');
               };
               client[method]('/foobar');
             });
@@ -172,24 +232,22 @@
             });
           });
 
-          test('overrides method', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('overrides method', function() {
             var client = new HTTPClient({});
             var req = HTTPClient.request;
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                plan.ok(opts.method === method);
+                assert(opts.method === method);
               };
               client[method.toLowerCase()]({});
             });
           });
 
-          test('option is a string', function(done) {
-            var plan = new Plan(utils.methods.length, done);
+          test('option is a string', function() {
             var client = new HTTPClient({});
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                plan.ok(opts.path === '/foobar');
+                assert(opts.path === '/foobar');
               };
               client[method.toLowerCase()]('/foobar');
             });
@@ -201,24 +259,6 @@
 
     });
 
-
   });
-
-
-
-
-
-  // suite('method request', function() {
-
-  //   test('instance', function() {
-  //     assert(typeof HTTPClient.request === 'function');
-  //   });
-
-  //   test('constructorz', function() {
-  //     var client = new HTTPClient();
-  //     assert(typeof client.request === 'function');
-  //   });
-
-  // });
 
 })(this);
