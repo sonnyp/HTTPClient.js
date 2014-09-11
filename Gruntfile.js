@@ -32,6 +32,8 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'lib/utils.js',
+          'lib/Response.js',
+          'lib/Request.js',
           'lib/browser.js',
           'lib/index.js',
         ],
