@@ -1,6 +1,6 @@
 bower_components/
 node_modules/
-!.jshintrc
-!.jshintignore
+!.eslintrc
+!.eslintignore
 !.travis.yml
 !.npmignore
