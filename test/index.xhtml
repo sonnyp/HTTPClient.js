@@ -5,19 +5,18 @@
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
     <script src="../node_modules/mocha/mocha.js"/>
+    <script src="../node_modules/chai/chai.js"/>
     <!-- concat -->
-    <script src="../dist/HTTPClient.js"/>
+    <!-- <script src="../dist/HTTPClient.js"/> -->
     <!-- plain -->
-    <!-- <script src="../lib/utils.js"/> -->
-    <!-- <script src="../lib/browser.js"/> -->
-    <!-- <script src="../lib/index.js"/> -->
-
-    <!-- <script src="config.js"/> -->
+    <script src="../lib/utils.js"/>
+    <script src="../lib/Response.js"/>
+    <script src="../lib/Request.js"/>
+    <script src="../lib/browser.js"/>
+    <script src="../lib/index.js"/>
     <script>
       mocha.setup('tdd');
       mocha.checkLeaks();
-      mocha.bail();
-      mocha.timeout(10000);
       document.addEventListener('DOMContentLoaded', function() {
         mocha.run();
       });

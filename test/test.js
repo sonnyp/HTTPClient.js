@@ -10,16 +10,16 @@
 
   if (typeof module !== 'undefined' && module.exports) {
     HTTPClient = require('..');
-    assert = require('assert');
+    assert = require('chai').assert;
     utils = require('../lib/utils');
   }
   else {
     HTTPClient = global.HTTPClient;
-    assert = function assert(expr, msg) {
-      if (!expr) throw new Error(msg || 'failed');
-    };
+    assert = global.chai.assert;
     utils = HTTPClient.utils;
   }
+
+  console.log(assert('lol', 'lol'))
 
   var Plan = function(count, done) {
     this.done = done;
@@ -41,6 +41,54 @@
     }
   };
 
+  suite('utils.joinPath', function() {
+
+    var join = utils.joinPaths;
+
+    test('test', function() {
+
+      assert.equal(join(['/foo/', '/bar']), '/foo/bar');
+      assert.equal(join(['/foo', '/bar']), '/foo/bar');
+      assert.equal(join(['/foo/', 'bar']), '/foo/bar');
+      assert.equal(join(['/foo', 'bar']), '/foo/bar');
+
+      assert.equal(join(['foo/', '/bar']), 'foo/bar');
+      assert.equal(join(['foo/', 'bar']), 'foo/bar');
+      assert.equal(join(['foo', '/bar']), 'foo/bar');
+      assert.equal(join(['foo', 'bar']), 'foo/bar');
+
+      assert.equal(join(['foo/', '/bar/']), 'foo/bar/');
+      assert.equal(join(['foo/', 'bar/']), 'foo/bar/');
+      assert.equal(join(['foo', '/bar/']), 'foo/bar/');
+      assert.equal(join(['foo/', 'bar/']), 'foo/bar/');
+
+      assert.equal(join('foo/bar'), 'foo/bar');
+    });
+
+  });
+
+  suite('utils.handleOptions', function() {
+
+    var go = utils.handleOptions;
+
+    test('absolute path', function() {
+      var opts = utils.handleOptions({path: '/foo'}, {path: '/bar'});
+      assert.equal(opts.path, '/bar/foo');
+    });
+
+    test('merge path', function() {
+      var n = {path: 'foo'};
+      var o = {path: '/bar/'};
+      assert.equal(go(n, o).path, '/bar/foo');
+
+      n.path = 'foo/';
+      assert.equal(go(n, o).path, '/bar/foo/');
+
+      // n.path = '/foo/';
+      // assert(go(n, o).path === '/bar/foo/');
+    });
+  });
+
   suite('methods', function() {
 
     suite('static', function() {
@@ -58,7 +106,7 @@
           assert(req.host === 'localhost');
           assert(req.port === 80);
           assert(req.secure === false);
-          assert(req.path === '/');
+          assert.equal(req.path, '/');
         });
 
         test('option is a string', function() {
@@ -185,7 +233,7 @@
         test('option is a string', function() {
           var client = new HTTPClient({});
           var req = client.request('/foo');
-          assert(req.path === '/foo');
+          assert.equal(req.path, '/foo');
         });
 
       });

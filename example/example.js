@@ -87,7 +87,7 @@
   /*
    * Example 2
    */
-  var httpclient = HTTPClient;
+  // var httpclient = HTTPClient;
   // httpClient.
   // options.body = {
   //   greetings: 'hello'
