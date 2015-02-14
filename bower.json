@@ -1,12 +1,12 @@
 {
   "name": "httpclient",
   "version": "0.0.4",
-  "description": "HTTPClient interface for browsers and Node.js",
+  "description": "JavaScript HTTPClient interface for browsers and Node.js",
   "homepage": "https://github.com/sonnyp/HTTPClient.js",
   "authors": [
     "Sonny Piers <sonny@fastmail.net>"
   ],
-  "main": "dist/HTTPClient.min.js",
+  "main": "HTTPClient.js",
   "keywords": [
     "http",
     "jsonp",
@@ -18,15 +18,15 @@
     "bower_components/",
     "example/",
     "lib/",
-    "test/",
     "node_modules/",
+    "test/",
+    ".editorconfig",
+    ".eslintignore",
+    ".eslintrc",
     ".gitignore",
-    ".jshintignore",
-    ".jshintrc",
     ".npmignore",
     ".travis.yml",
     "Gruntfile.js",
-    "index.js",
     "package.json"
   ],
   "dependencies": {

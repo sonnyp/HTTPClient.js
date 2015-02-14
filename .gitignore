@@ -4,3 +4,4 @@ node_modules/
 !.eslintignore
 !.travis.yml
 !.npmignore
+HTTPClient.js

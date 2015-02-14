@@ -1,13 +1,12 @@
 bower_components/
-dist/
 example/
+node_modules/
 test/
+.editorconfig
+.eslintignore
+.eslintrc
 .gitignore
-.jshintignore
-.jshintrc
 .npmignore
 .travis.yml
 bower.json
 Gruntfile.js
-HTTPClient.js
-HTTPClient.min.js

@@ -36,31 +36,19 @@ module.exports = function(grunt) {
           'lib/browser.js',
           'lib/index.js',
         ],
-        dest: 'dist/HTTPClient.js'
+        dest: 'HTTPClient.js'
       }
     },
-
-    uglify: {
-      my_target: {
-        files: {
-          'dist/HTTPClient.min.js': ['dist/HTTPClient.js']
-        },
-        options: {
-          sourceMap: true
-        }
-      }
-    }
 
   });
 
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('mocha', 'mochaTest');
-  grunt.registerTask('syntax', 'eslint');
+  grunt.registerTask('mocha', ['mochaTest']);
+  grunt.registerTask('syntax', ['eslint']);
   grunt.registerTask('test', ['mocha', 'syntax']);
-  grunt.registerTask('build', ['concat', 'uglify']);
-  grunt.registerTask('default', 'test');
+  grunt.registerTask('build', ['concat']);
+  grunt.registerTask('default', ['test']);
 };
