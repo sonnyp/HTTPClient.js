@@ -3,10 +3,10 @@ HTTPClient.js
 
 JavaScript HTTP client library for browsers and Node.js
 
-[![Build Status](https://travis-ci.org/sonnyp/HTTPClient.js.png?branch=master)](https://travis-ci.org/sonnyp/HTTPClient.js)
+[![Build Status](https://img.shields.io/travis/sonnyp/HTTPClient.js.svg?style=flat-square)](https://travis-ci.org/sonnyp/HTTPClient.js)
 
-[![Dependency Status](https://david-dm.org/sonnyp/HTTPClient.js.png)](https://david-dm.org/sonnyp/HTTPClient.js)
-[![devDependency Status](https://david-dm.org/sonnyp/HTTPClient.js/dev-status.png)](https://david-dm.org/sonnyp/HTTPClient.js#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js)
+[![devDependency Status](https://img.shields.io/david/dev/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js#info=devDependencies)
 
 ## Browser
 ```
