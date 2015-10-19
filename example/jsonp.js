@@ -1,15 +1,15 @@
-(function(global) {
+(function () {
+  'use strict'
 
-  'use strict';
+  var httpclient
 
-  var httpclient;
-
-  //node.js
-  if (typeof module !== 'undefined' && module.exports)
-    httpclient = require('../index');
-  //browsers
-  else
-    httpclient = global.HTTPClient;
+  // node.js
+  if (typeof module !== 'undefined' && module.exports) {
+    httpclient = require('../index')
+  // browsers
+  } else {
+    httpclient = window.HTTPClient
+  }
 
   var options = {
     hostname: 'localhost',
@@ -21,10 +21,9 @@
       id: 'foo',
       method: 'aria2.getVersion'
     }
-  };
+  }
 
-  httpclient(options, function(err, res) {
-    console.log(res.body);
-  });
-
-})(this);
+  httpclient(options, function (err, res) {
+    console.log(err || res.body)
+  })
+}())

@@ -4,29 +4,25 @@
   "description": "HTTPClient interface for browsers and Node.js",
   "homepage": "https://github.com/sonnyp/HTTPClient.js",
   "bugs": "https://github.com/sonnyp/HTTPClient.js/issues",
-  "license": "MIT",
+  "license": "ISC",
   "author": "Sonny Piers <sonny@fastmail.net>",
   "keywords": [
     "http",
+    "client",
     "jsonp",
     "query",
     "rest"
   ],
   "main": "lib/index",
   "scripts": {
-    "test": "grunt test --verbose"
+    "preversion": "npm test",
+    "lint": "standard",
+    "unit": "mocha -u tdd test/test.js test/utils.js",
+    "test": "npm run unit && npm run lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/sonnyp/HTTPClient.js.git"
-  },
+  "repository": "github:sonnyp/HTTPClient.js",
   "devDependencies": {
-    "chai": "^2.1.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-eslint": "^7.0.1",
-    "grunt-mocha-test": "^0.12.7",
-    "mocha": "^2.2.0"
+    "chai": "^2.1.1"
   },
   "optionalDependencies": {
     "es6-promise": "^2.0.1"

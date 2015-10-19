@@ -1,12 +1,7 @@
-bower_components/
 example/
-node_modules/
 test/
+
 .editorconfig
-.eslintignore
-.eslintrc
 .gitignore
 .npmignore
 .travis.yml
-bower.json
-Gruntfile.js
