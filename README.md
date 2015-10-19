@@ -3,37 +3,24 @@ HTTPClient.js
 
 JavaScript HTTP client library for browsers and Node.js
 
-[![Build Status](https://img.shields.io/travis/sonnyp/HTTPClient.js.svg?style=flat-square)](https://travis-ci.org/sonnyp/HTTPClient.js)
+[![build status](https://img.shields.io/travis/sonnyp/HTTPClient.js/master.svg?style=flat-square)](https://travis-ci.org/sonnyp/HTTPClient.js/branches)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-[![Dependency Status](https://img.shields.io/david/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js)
-[![devDependency Status](https://img.shields.io/david/dev/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js#info=devDependencies)
-
-Install ```httpclient``` via [Bowser](https://www.npmjs.com/) or [npm](https://www.npmjs.com/).
+```
+npm install httpclient
+```
 
 ## Browser
 
-#### Bower
-```bower install httpclient```
-```xml
-<script src="bower_components/httpclient/HTTPClient.js"></script>
-```
-
-#### npm
-```npm install httpclient```
 ```xml
 <script src="node_modules/httpclient/HTTPClient.js"></script>
 ```
-
-*****
-
 ```javascript
 var HTTPClient = window.HTTPClient;
 ```
 
 ## Node.js
-```
-npm install httpclient
-```
+
 ```javascript
 var HTTPClient = require('HTTPClient');
 ```
