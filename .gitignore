@@ -1,7 +1,8 @@
-bower_components/
 node_modules/
-!.eslintrc
-!.eslintignore
-!.travis.yml
+
+!.editorconfig
+!.gitignore
 !.npmignore
-HTTPClient.js
+!.travis.yml
+
+bundle.js

@@ -1,25 +1,22 @@
 (function(global) {
-
   'use strict';
 
   /* global suite, test */
 
-  var assert;
-  var HTTPClient;
-  var utils;
+  var assert
+  var HTTPClient
+  var utils
 
   if (typeof module !== 'undefined' && module.exports) {
-    HTTPClient = require('..');
-    assert = require('chai').assert;
-    utils = require('../lib/utils');
+    HTTPClient = require('..')
+    assert = require('chai').assert
+    utils = require('../lib/utils')
   }
   else {
-    HTTPClient = global.HTTPClient;
-    assert = global.chai.assert;
-    utils = HTTPClient.utils;
+    HTTPClient = global.HTTPClient
+    assert = global.chai.assert
+    utils = HTTPClient.utils
   }
-
-  console.log(assert('lol', 'lol'))
 
   var Plan = function(count, done) {
     this.done = done;
@@ -27,67 +24,67 @@
   };
 
   Plan.prototype.ok = function(expression) {
-    assert(expression);
+    assert(expression)
 
     if (this.count === 0) {
-      assert(false, 'Too many assertions called');
+      assert(false, 'Too many assertions called')
     }
     else {
-      this.count--;
+      this.count--
     }
 
     if (this.count === 0) {
-      this.done();
+      this.done()
     }
-  };
+  }
 
   suite('utils.joinPath', function() {
 
-    var join = utils.joinPaths;
+    var join = utils.joinPaths
 
     test('test', function() {
 
-      assert.equal(join(['/foo/', '/bar']), '/foo/bar');
-      assert.equal(join(['/foo', '/bar']), '/foo/bar');
-      assert.equal(join(['/foo/', 'bar']), '/foo/bar');
-      assert.equal(join(['/foo', 'bar']), '/foo/bar');
+      assert.equal(join(['/foo/', '/bar']), '/foo/bar')
+      assert.equal(join(['/foo', '/bar']), '/foo/bar')
+      assert.equal(join(['/foo/', 'bar']), '/foo/bar')
+      assert.equal(join(['/foo', 'bar']), '/foo/bar')
 
-      assert.equal(join(['foo/', '/bar']), 'foo/bar');
-      assert.equal(join(['foo/', 'bar']), 'foo/bar');
-      assert.equal(join(['foo', '/bar']), 'foo/bar');
-      assert.equal(join(['foo', 'bar']), 'foo/bar');
+      assert.equal(join(['foo/', '/bar']), 'foo/bar')
+      assert.equal(join(['foo/', 'bar']), 'foo/bar')
+      assert.equal(join(['foo', '/bar']), 'foo/bar')
+      assert.equal(join(['foo', 'bar']), 'foo/bar')
 
-      assert.equal(join(['foo/', '/bar/']), 'foo/bar/');
-      assert.equal(join(['foo/', 'bar/']), 'foo/bar/');
-      assert.equal(join(['foo', '/bar/']), 'foo/bar/');
-      assert.equal(join(['foo/', 'bar/']), 'foo/bar/');
+      assert.equal(join(['foo/', '/bar/']), 'foo/bar/')
+      assert.equal(join(['foo/', 'bar/']), 'foo/bar/')
+      assert.equal(join(['foo', '/bar/']), 'foo/bar/')
+      assert.equal(join(['foo/', 'bar/']), 'foo/bar/')
 
-      assert.equal(join('foo/bar'), 'foo/bar');
-    });
+      assert.equal(join('foo/bar'), 'foo/bar')
+    })
 
-  });
+  })
 
   suite('utils.handleOptions', function() {
 
-    var go = utils.handleOptions;
+    var go = utils.handleOptions
 
     test('absolute path', function() {
-      var opts = utils.handleOptions({path: '/foo'}, {path: '/bar'});
-      assert.equal(opts.path, '/bar/foo');
-    });
+      var opts = utils.handleOptions({path: '/foo'}, {path: '/bar'})
+      assert.equal(opts.path, '/bar/foo')
+    })
 
     test('merge path', function() {
-      var n = {path: 'foo'};
-      var o = {path: '/bar/'};
-      assert.equal(go(n, o).path, '/bar/foo');
+      var n = {path: 'foo'}
+      var o = {path: '/bar/'}
+      assert.equal(go(n, o).path, '/bar/foo')
 
-      n.path = 'foo/';
-      assert.equal(go(n, o).path, '/bar/foo/');
+      n.path = 'foo/'
+      assert.equal(go(n, o).path, '/bar/foo/')
 
       // n.path = '/foo/';
       // assert(go(n, o).path === '/bar/foo/');
-    });
-  });
+    })
+  })
 
   suite('methods', function() {
 
@@ -96,113 +93,109 @@
       suite('request', function() {
 
         test('is defined', function() {
-          var p = HTTPClient.request({});
-          assert(typeof p === 'object');
-        });
+          var p = HTTPClient.request({})
+          assert(typeof p === 'object')
+        })
 
         test('default options', function() {
-          var req = HTTPClient.request();
-          assert(req.method === 'GET');
-          assert(req.host === 'localhost');
-          assert(req.port === 80);
-          assert(req.secure === false);
-          assert.equal(req.path, '/');
-        });
+          var req = HTTPClient.request()
+          assert(req.method === 'GET')
+          assert(req.host === 'localhost')
+          assert(req.port === 80)
+          assert(req.secure === false)
+          assert.equal(req.path, '/')
+        })
 
         test('option is a string', function() {
-          var req = HTTPClient.request('/foo');
-          assert(req.path === '/foo');
-        });
+          var req = HTTPClient.request('/foo')
+          assert(req.path === '/foo')
+        })
 
-      });
+      })
       suite('http utils.methods', function() {
 
         suite('upper case', function() {
 
           test('check presence', function() {
             utils.methods.forEach(function(method) {
-              assert(typeof HTTPClient[method] === 'function');
-            });
-          });
+              assert(typeof HTTPClient[method] === 'function')
+            })
+          })
 
           test('overrides method', function() {
-            var req = HTTPClient.request;
+            var req = HTTPClient.request
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                assert(opts.method === method);
-              };
-              HTTPClient[method]({});
-            });
-            HTTPClient.request = req;
-          });
+                assert(opts.method === method)
+              }
+              HTTPClient[method]({})
+            })
+            HTTPClient.request = req
+          })
 
           test('option is a string', function() {
-            var req = HTTPClient.request;
+            var req = HTTPClient.request
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                assert(opts.path === '/foobar');
-              };
-              HTTPClient[method]('/foobar');
-            });
-            HTTPClient.request = req;
-          });
-
-        });
+                assert(opts.path === '/foobar')
+              }
+              HTTPClient[method]('/foobar')
+            })
+            HTTPClient.request = req
+          })
+        })
 
         suite('lower case', function() {
 
           test('check presence', function() {
             utils.methods.forEach(function(method) {
-              assert(typeof HTTPClient[method.toLowerCase()] === 'function');
-            });
-          });
+              assert(typeof HTTPClient[method.toLowerCase()] === 'function')
+            })
+          })
 
           test('overrides method', function() {
-            var req = HTTPClient.request;
+            var req = HTTPClient.request
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                assert(opts.method === method);
-              };
-              HTTPClient[method.toLowerCase()]({});
-            });
-            HTTPClient.request = req;
-          });
+                assert(opts.method === method)
+              }
+              HTTPClient[method.toLowerCase()]({})
+            })
+            HTTPClient.request = req
+          })
 
           test('option is a string', function() {
-            var req = HTTPClient.request;
+            var req = HTTPClient.request
             utils.methods.forEach(function(method) {
               HTTPClient.request = function(opts) {
-                assert(opts.path === '/foobar');
-              };
-              HTTPClient[method.toLowerCase()]('/foobar');
-            });
-            HTTPClient.request = req;
-          });
-
-        });
-
-      });
-
-    });
+                assert(opts.path === '/foobar')
+              }
+              HTTPClient[method.toLowerCase()]('/foobar')
+            })
+            HTTPClient.request = req
+          })
+        })
+      })
+    })
 
     suite('instance', function() {
 
       suite('request', function() {
 
         test('is defined', function() {
-          var client = new HTTPClient({});
-          var p = client.request({});
-          assert(typeof p === 'object');
-        });
+          var client = new HTTPClient({})
+          var p = client.request({})
+          assert(typeof p === 'object')
+        })
 
         test('default options', function() {
-          var client = new HTTPClient({});
-          assert(client.method === 'GET');
-          assert(client.host === 'localhost');
-          assert(client.port === 80);
-          assert(client.secure === false);
-          assert(client.path === '/');
-        });
+          var client = new HTTPClient({})
+          assert(client.method === 'GET')
+          assert(client.host === 'localhost')
+          assert(client.port === 80)
+          assert(client.secure === false)
+          assert(client.path === '/')
+        })
 
         test('overrides options', function() {
           var client = new HTTPClient.request({
@@ -217,96 +210,89 @@
             method: 'POST',
             username: 'foo',
             password: 'bar',
-          });
-          assert(client.host === 'example.com');
-          assert(client.secure === true);
-          assert(client.port === 443);
-          assert(client.headers);
-          assert(client.headers.foo === 'bar');
-          assert(client.path === '/foo/bar');
-          assert(client.query.foo === 'bar');
-          assert(client.method === 'POST');
-          assert(client.username === 'foo');
-          assert(client.password === 'bar');
-        });
+          })
+          assert(client.host === 'example.com')
+          assert(client.secure === true)
+          assert(client.port === 443)
+          assert(client.headers)
+          assert(client.headers.foo === 'bar')
+          assert(client.path === '/foo/bar')
+          assert(client.query.foo === 'bar')
+          assert(client.method === 'POST')
+          assert(client.username === 'foo')
+          assert(client.password === 'bar')
+        })
 
         test('option is a string', function() {
-          var client = new HTTPClient({});
-          var req = client.request('/foo');
-          assert.equal(req.path, '/foo');
-        });
-
-      });
+          var client = new HTTPClient({})
+          var req = client.request('/foo')
+          assert.equal(req.path, '/foo')
+        })
+      })
 
       suite('http utils.methods', function() {
 
         suite('upper cased', function() {
 
           test('check presence', function() {
-            var client = new HTTPClient({});
+            var client = new HTTPClient({})
             utils.methods.forEach(function(method) {
-              assert(typeof client[method] === 'function');
-            });
-          });
+              assert(typeof client[method] === 'function')
+            })
+          })
 
           test('overrides method', function() {
-            var client = new HTTPClient({});
+            var client = new HTTPClient({})
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                assert(opts.method === method);
-              };
-              client[method]({});
-            });
-          });
+                assert(opts.method === method)
+              }
+              client[method]({})
+            })
+          })
 
           test('option is a string', function() {
-            var client = new HTTPClient({});
+            var client = new HTTPClient({})
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                assert(opts.path === '/foobar');
-              };
-              client[method]('/foobar');
-            });
-          });
-
-        });
+                assert(opts.path === '/foobar')
+              }
+              client[method]('/foobar')
+            })
+          })
+        })
 
         suite('lower case', function() {
 
           test('check presence', function() {
-            var client = new HTTPClient({});
+            var client = new HTTPClient({})
             utils.methods.forEach(function(method) {
-              assert(typeof client[method.toLowerCase()] === 'function');
-            });
-          });
+              assert(typeof client[method.toLowerCase()] === 'function')
+            })
+          })
 
           test('overrides method', function() {
-            var client = new HTTPClient({});
-            var req = HTTPClient.request;
+            var client = new HTTPClient({})
+            var req = HTTPClient.request
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                assert(opts.method === method);
-              };
-              client[method.toLowerCase()]({});
-            });
-          });
+                assert(opts.method === method)
+              }
+              client[method.toLowerCase()]({})
+            })
+          })
 
           test('option is a string', function() {
-            var client = new HTTPClient({});
+            var client = new HTTPClient({})
             utils.methods.forEach(function(method) {
               client.request = function(opts) {
-                assert(opts.path === '/foobar');
-              };
-              client[method.toLowerCase()]('/foobar');
-            });
-          });
-
-        });
-
-      });
-
-    });
-
-  });
-
-})(this);
+                assert(opts.path === '/foobar')
+              }
+              client[method.toLowerCase()]('/foobar')
+            })
+          })
+        })
+      })
+    })
+  })
+})(this)

@@ -8,20 +8,20 @@ JavaScript HTTP client library for browsers and Node.js
 [![Dependency Status](https://img.shields.io/david/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js)
 [![devDependency Status](https://img.shields.io/david/dev/sonnyp/HTTPClient.js.svg?style=flat-square)](https://david-dm.org/sonnyp/HTTPClient.js#info=devDependencies)
 
-## Browser
-```
-bower install httpclient
-```
-```xml
-<script src="bower_components/httpclient/httpclient.min.js"></script>
-```
-
-### Node.js
+### Setup
 ```
 npm install httpclient
 ```
+---
 ```javascript
-var HTTPClient = require('HTTPClient');
+var HTTPClient = require('httpclient')
+```
+or
+```xml
+<script src="node_modules/httpclient/bundle.js"></script>
+```
+```javascript
+var HTTPClient = window.HTTPClient
 ```
 
 ## Example
