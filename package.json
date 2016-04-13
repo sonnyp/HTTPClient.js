@@ -14,21 +14,17 @@
   ],
   "main": "lib/index",
   "scripts": {
-    "test": "grunt test --verbose"
+    "bundle": "cat lib/utils.js lib/Response.js lib/Request.js lib/browser.js lib/index.js > bundle.js",
+    "lint": "standard",
+    "unit": "mocha -u tdd test/test",
+    "test": "npm run unit && npm run bundle"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/sonnyp/HTTPClient.js.git"
-  },
+  "repository": "github.com:sonnyp/HTTPClient.js",
   "devDependencies": {
-    "chai": "^2.1.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-eslint": "^7.0.1",
-    "grunt-mocha-test": "^0.12.7",
+    "chai": "^3.5.0",
     "mocha": "^2.2.0"
   },
   "optionalDependencies": {
-    "es6-promise": "^2.0.1"
+    "es6-promise": "^3.1.2"
   }
 }

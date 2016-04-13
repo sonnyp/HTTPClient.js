@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-var http = require('http');
+var http = require('http')
 
-var server = http.createServer();
+var server = http.createServer()
 
 server.on('request', function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', '*')
   if (req.method === 'OPTIONS') {
     res.writeHead(200, {
       'Access-Control-Allow-Headers': 'x-powered-by'
-    });
-    return res.end();
+    })
+    return res.end()
   }
 
   var body = {
@@ -18,14 +18,14 @@ server.on('request', function(req, res) {
     method: req.method,
     path: req.url
   };
-  body = new Buffer(JSON.stringify(body));
+  body = new Buffer(JSON.stringify(body))
   res.writeHead(200, {
     'content-type': 'application/json',
     'content-length': body.length
-  });
-  res.end(body);
+  })
+  res.end(body)
 });
 
 server.listen(8080, function() {
-  console.log('Listening on 8080');
-});
+  console.log('Listening on 8080')
+})
